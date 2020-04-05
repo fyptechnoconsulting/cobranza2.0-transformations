@@ -6,19 +6,8 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
-      <parameter>
-        <name>ARCHIVO_BANCOS</name>
-        <default_value>/home/portilloga/work/workspace/cobranza2.0/sources/codBancos.csv</default_value>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>RUTA_LOG</name>
-        <default_value>/home/portilloga/work/workspace/tmp</default_value>
-        <description/>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -509,11 +498,35 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Obtener parametros</from>
-      <to>bancos</to>
+      <from>Insertar_Actualizar_banco</from>
+      <to>Dummie</to>
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>Dummie</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>373</xloc>
+      <yloc>74</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Insertar_Actualizar_banco</name>
     <type>InsertUpdate</type>
@@ -532,25 +545,25 @@
       <schema>cobros</schema>
       <table>banco</table>
       <key>
-        <name>codigo</name>
+        <name>Field1</name>
         <field>co_banco</field>
         <condition>=</condition>
         <name2/>
       </key>
       <key>
-        <name>banco</name>
+        <name>Field2</name>
         <field>ibp</field>
         <condition>=</condition>
         <name2/>
       </key>
       <value>
         <name>co_banco</name>
-        <rename>codigo</rename>
+        <rename>Field1</rename>
         <update>N</update>
       </value>
       <value>
         <name>ibp</name>
-        <rename>banco</rename>
+        <rename>Field2</rename>
         <update>N</update>
       </value>
     </lookup>
@@ -562,8 +575,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>80</yloc>
+      <xloc>198</xloc>
+      <yloc>74</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -578,11 +591,11 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <accept_filenames>Y</accept_filenames>
+    <accept_filenames>N</accept_filenames>
     <passing_through_fields>N</passing_through_fields>
-    <accept_field>archivo_bancos</accept_field>
-    <accept_stepname>Obtener parametros</accept_stepname>
-    <separator>;</separator>
+    <accept_field/>
+    <accept_stepname/>
+    <separator>	</separator>
     <enclosure/>
     <enclosure_breaks>N</enclosure_breaks>
     <escapechar/>
@@ -601,24 +614,24 @@
     <rownum>N</rownum>
     <rownumByFile>N</rownumByFile>
     <rownum_field/>
-    <format>mixed</format>
+    <format>DOS</format>
     <encoding/>
-    <length>Characters</length>
+    <length/>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>/home/portilloga/work/workspace/cobranza2.0/sources/codBancos.csv</name>
+      <name>F:\pentaho\codBancos</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
       <include_subfolders>N</include_subfolders>
-      <type>CSV</type>
+      <type>Fixed</type>
       <compression>None</compression>
     </file>
     <filters>
     </filters>
     <fields>
       <field>
-        <name>codigo</name>
+        <name>Field1</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -626,14 +639,14 @@
         <group/>
         <nullif/>
         <ifnull/>
-        <position>-1</position>
-        <length>-1</length>
+        <position>0</position>
+        <length>4</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
       </field>
       <field>
-        <name>banco</name>
+        <name>Field2</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -641,8 +654,8 @@
         <group/>
         <nullif/>
         <ifnull/>
-        <position>-1</position>
-        <length>-1</length>
+        <position>4</position>
+        <length>71</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
@@ -681,8 +694,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>80</yloc>
+      <xloc>57</xloc>
+      <yloc>75</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -711,7 +724,7 @@
     <fileNameField/>
     <create_parent_folder>N</create_parent_folder>
     <file>
-      <name>${IRUTA_LOG}/errorInsertaBanco</name>
+      <name>${Internal.Entry.Current.Directory}\log\errorInsertaBanco</name>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>N</do_not_open_new_file_init>
       <extention>log</extention>
@@ -761,46 +774,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>208</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Obtener parametros</name>
-    <type>GetVariable</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>archivo_bancos</name>
-        <variable>${ARCHIVO_BANCOS}</variable>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>176</xloc>
-      <yloc>80</yloc>
+      <xloc>198</xloc>
+      <yloc>174</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

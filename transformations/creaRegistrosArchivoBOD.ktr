@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>generaArchivoBOD</name>
+    <name>creaRegistrosArchivoBOD</name>
     <description/>
     <extended_description>ETL encargado de generar los registros asociados al archivo de cobro del banco BOD</extended_description>
     <trans_version/>
@@ -11,37 +11,27 @@
     <parameters>
       <parameter>
         <name>CO_BANCO</name>
-        <default_value>'0116'</default_value>
+        <default_value/>
         <description/>
       </parameter>
       <parameter>
         <name>CO_CUENTA_ABADIA</name>
-        <default_value>'XXXXXXXXXXXXXXXXXXXX'</default_value>
+        <default_value/>
         <description/>
       </parameter>
       <parameter>
         <name>CO_DIA_DEBITO</name>
-        <default_value>0</default_value>
+        <default_value/>
         <description/>
       </parameter>
       <parameter>
         <name>FE_EJECUCION</name>
-        <default_value>'15-01-2020'</default_value>
+        <default_value/>
         <description/>
       </parameter>
       <parameter>
-        <name>FE_ESTANDAR</name>
-        <default_value>20200115</default_value>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>NOMBRE_ARCHIVO</name>
-        <default_value>BOD</default_value>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>RUTA_ARCHIVO</name>
-        <default_value>d:/fyptechnoconsulting/resultadosEjecucion/tmp</default_value>
+        <name>FE_ENVIO</name>
+        <default_value/>
         <description/>
       </parameter>
     </parameters>
@@ -472,14 +462,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>abadiaMbo01d</name>
-    <server>localhost</server>
+    <name>cobros</name>
+    <server/>
     <type>POSTGRESQL</type>
-    <access>Native</access>
-    <database>cobranza2_0</database>
-    <port>5432</port>
-    <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde</password>
+    <access>JNDI</access>
+    <database>cobros</database>
+    <port>1521</port>
+    <username/>
+    <password>Encrypted </password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -498,11 +488,11 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>5432</attribute>
+        <attribute>1521</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>N</attribute>
+        <attribute>Y</attribute>
       </attribute>
       <attribute>
         <code>QUOTE_ALL_FIELDS</code>
@@ -524,294 +514,13 @@
   </connection>
   <order>
     <hop>
-      <from>EscribeArchivo</from>
-      <to>return</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>SeleccionaRegistrosEscribir</from>
-      <to>EscribeArchivo</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>GeneraRegistrosCobros</from>
-      <to>Crea Ruta Escritura</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Generar Filas</from>
-      <to>Crea Ruta Escritura</to>
-      <enabled>N</enabled>
-    </hop>
-    <hop>
-      <from>Crea Ruta Escritura</from>
-      <to>Write to log</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Write to log</from>
-      <to>SeleccionaRegistrosEscribir</to>
+      <from>creaRegistrosArchivo</from>
+      <to>Copy rows to result</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Crea Ruta Escritura</name>
-    <type>ScriptValueMod</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <compatible>N</compatible>
-    <optimizationLevel>9</optimizationLevel>
-    <jsScripts>
-      <jsScript>
-        <jsScript_type>0</jsScript_type>
-        <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>var archivoDestino = getVariable("RUTA_ARCHIVO", "")+getVariable("FE_ESTANDAR", "")+getVariable("NOMBRE_ARCHIVO", "");</jsScript_script>
-      </jsScript>
-    </jsScripts>
-    <fields>
-      <field>
-        <name>archivoDestino</name>
-        <rename>archivoDestino</rename>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <replace>N</replace>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>288</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>EscribeArchivo</name>
-    <type>TextFileOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <separator>;</separator>
-    <enclosure>"</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>N</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding>windows-1252</encoding>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField>archivoDestino</fileNameField>
-    <create_parent_folder>N</create_parent_folder>
-    <file>
-      <name>${RUTA_ARCHIVO}/ ${FE_ESTANDAR}${NOMBRE_ARCHIVO}</name>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>Y</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>N</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>detalle</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>100</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>704</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>GeneraRegistrosCobros</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>abadiaMbo01d</connection>
-    <sql>SELECT cobros.genera_datos_archivo_cobro_bod(${CO_BANCO},to_date(${FE_EJECUCION},'dd-mm-yyyy'),${CO_DIA_DEBITO},${CO_CUENTA_ABADIA})
-
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>144</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Generar Filas</name>
-    <type>RowGenerator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>x</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>x</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <limit>1</limit>
-    <never_ending>N</never_ending>
-    <interval_in_ms>5000</interval_in_ms>
-    <row_time_field>now</row_time_field>
-    <last_time_field>FiveSecondsAgo</last_time_field>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>288</xloc>
-      <yloc>144</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>SeleccionaRegistrosEscribir</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>abadiaMbo01d</connection>
-    <sql>select ad.tx_registro_cobro as detalle 
-from cobros.archivo a join cobros.archivo_detalle ad on (a.co_archivo = ad.co_archivo) 
-where a.fe_cobro =  to_date(${FE_EJECUCION},'dd-mm-yyyy')and a.co_archivo = (select max(co_archivo) 
-from cobros.archivo aa where aa.fe_cobro =to_date(${FE_EJECUCION},'dd-mm-yyyy') 
-and aa.co_banco = ${CO_BANCO})</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>560</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Write to log</name>
-    <type>WriteToLog</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage/>
-    <fields>
-      <field>
-        <name>archivoDestino</name>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>432</xloc>
-      <yloc>48</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>return</name>
+    <name>Copy rows to result</name>
     <type>RowsToResult</type>
     <description/>
     <distribute>Y</distribute>
@@ -829,8 +538,79 @@ and aa.co_banco = ${CO_BANCO})</sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>816</xloc>
-      <yloc>48</yloc>
+      <xloc>256</xloc>
+      <yloc>32</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>creaRegistrosArchivo</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>cobros</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>--SELECT cobros.genera_datos_archivo_cobro_bod('?',to_date('?','dd-mm-yyyy'),to_date('?','dd-mm-yyyy'),'?','?');
+
+SELECT cobros.genera_datos_archivo_cobro_bod(${CO_BANCO},to_date(${FE_EJECUCION},'dd-mm-yyyy'),to_date(${FE_ENVIO},'dd-mm-yyyy'),${CO_DIA_DEBITO},${CO_CUENTA_ABADIA});
+--SELECT cobros.genera_datos_archivo_cobro_bod(${CO_BANCO},to_date(${FE_EJECUCION},'dd-mm-yyyy'),to_date(${FE_ENVIO},'dd-mm-yyyy'),${CO_DIA_DEBITO},${CO_CUENTA_ABADIA});
+--SELECT cobros.genera_datos_archivo_cobro_bod('0116',to_date(${FE_EJECUCION},'dd-mm-yyyy'),0,'XXXXXXXXXXXXXXXX');</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+      <argument>
+        <name>CO_BANCO</name>
+      </argument>
+      <argument>
+        <name>FE_EJECUCION</name>
+      </argument>
+      <argument>
+        <name>FE_ENVIO</name>
+      </argument>
+      <argument>
+        <name>CO_DIA_DEBITO</name>
+      </argument>
+      <argument>
+        <name>CO_CUENTA_ABADIA</name>
+      </argument>
+      <argument>
+        <name>CO_BANCO</name>
+      </argument>
+      <argument>
+        <name>FE_EJECUCION</name>
+      </argument>
+      <argument>
+        <name>FE_ENVIO</name>
+      </argument>
+      <argument>
+        <name>CO_DIA_DEBITO</name>
+      </argument>
+      <argument>
+        <name>CO_CUENTA_ABADIA</name>
+      </argument>
+    </arguments>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>32</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

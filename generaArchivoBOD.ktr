@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>defineFechaCargaDatos</name>
+    <name>generaArchivoBOD</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -428,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2020/01/16 22:20:23.639</created_date>
+    <created_date>2020/03/26 18:11:34.617</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/01/16 22:20:23.639</modified_date>
+    <modified_date>2020/03/26 18:11:34.617</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -438,29 +438,34 @@
   </notepads>
   <order>
     <hop>
-      <from>System Date</from>
-      <to>Formato Fecha Valido</to>
+      <from>Get System Info</from>
+      <to>Crea Parametros</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>LOG: Define Fecha Ejecucion</from>
-      <to>return</to>
+      <from>Generate Rows</from>
+      <to>Crea Parametros</to>
+      <enabled>N</enabled>
+    </hop>
+    <hop>
+      <from>CreaRegistrosBD</from>
+      <to>Block this step until steps finish</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Set Variables Fecha</from>
-      <to>LOG: Define Fecha Ejecucion</to>
+      <from>Block this step until steps finish</from>
+      <to>escribeArchivoFisico</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Formato Fecha Valido</from>
-      <to>Set Variables Fecha</to>
+      <from>Crea Parametros</from>
+      <to>CreaRegistrosBD</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Formato Fecha Valido</name>
-    <type>SelectValues</type>
+    <name>Block this step until steps finish</name>
+    <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -469,15 +474,154 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <steps>
+      <step>
+        <name>CreaRegistrosBD</name>
+        <CopyNr>0</CopyNr>
+      </step>
+    </steps>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>48</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Crea Parametros</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
     <fields>
+      <field>
+        <name>CO_BANCO</name>
+        <rename/>
+      </field>
+      <field>
+        <name>FE_EJECUCION</name>
+        <rename/>
+      </field>
+      <field>
+        <name>FE_ENVIO</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CO_DIA_DEBITO</name>
+        <rename/>
+      </field>
+      <field>
+        <name>CO_CUENTA_ABADIA</name>
+        <rename/>
+      </field>
+      <field>
+        <name>NB_ARCHIVO_DESTINO</name>
+        <rename/>
+      </field>
       <select_unspecified>N</select_unspecified>
       <meta>
-        <name>first_day</name>
-        <rename>first_day</rename>
+        <name>CO_BANCO</name>
+        <rename>co_banco</rename>
         <type>String</type>
         <length>-2</length>
         <precision>-2</precision>
-        <conversion_mask>yyyyMMdd</conversion_mask>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>FE_EJECUCION</name>
+        <rename>fe_ejecucion</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>FE_ENVIO</name>
+        <rename>fe_envio</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>CO_DIA_DEBITO</name>
+        <rename>co_dia_debito</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>CO_CUENTA_ABADIA</name>
+        <rename>co_cuenta_abadia</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+      <meta>
+        <name>NB_ARCHIVO_DESTINO</name>
+        <rename>nb_archivo_destino</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
         <date_format_lenient>false</date_format_lenient>
         <date_format_locale/>
         <date_format_timezone/>
@@ -497,14 +641,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>32</yloc>
+      <xloc>176</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>LOG: Define Fecha Ejecucion</name>
-    <type>WriteToLog</type>
+    <name>CreaRegistrosBD</name>
+    <type>TransExecutor</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -513,16 +657,61 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <loglevel>log_level_basic</loglevel>
-    <displayHeader>Y</displayHeader>
-    <limitRows>N</limitRows>
-    <limitRowsNumber>0</limitRowsNumber>
-    <logmessage>Fecha minima carga datos planes </logmessage>
-    <fields>
-      <field>
-        <name>first_day</name>
-      </field>
-    </fields>
+    <specification_method>filename</specification_method>
+    <trans_object_id/>
+    <trans_name/>
+    <filename>${Internal.Entry.Current.Directory}/transformations/creaRegistrosArchivoBOD.ktr</filename>
+    <directory_path/>
+    <group_size>1</group_size>
+    <group_field/>
+    <group_time/>
+    <parameters>
+      <variablemapping>
+        <variable>CO_BANCO</variable>
+        <field>co_banco</field>
+        <input/>
+      </variablemapping>
+      <variablemapping>
+        <variable>CO_CUENTA_ABADIA</variable>
+        <field>co_cuenta_abadia</field>
+        <input/>
+      </variablemapping>
+      <variablemapping>
+        <variable>CO_DIA_DEBITO</variable>
+        <field>co_dia_debito</field>
+        <input/>
+      </variablemapping>
+      <variablemapping>
+        <variable>FE_EJECUCION</variable>
+        <field>fe_ejecucion</field>
+        <input/>
+      </variablemapping>
+      <variablemapping>
+        <variable>FE_ENVIO</variable>
+        <field>fe_envio</field>
+        <input/>
+      </variablemapping>
+      <inherit_all_vars>Y</inherit_all_vars>
+    </parameters>
+    <execution_result_target_step/>
+    <execution_time_field>ExecutionTime</execution_time_field>
+    <execution_result_field>ExecutionResult</execution_result_field>
+    <execution_errors_field>ExecutionNrErrors</execution_errors_field>
+    <execution_lines_read_field>ExecutionLinesRead</execution_lines_read_field>
+    <execution_lines_written_field>ExecutionLinesWritten</execution_lines_written_field>
+    <execution_lines_input_field>ExecutionLinesInput</execution_lines_input_field>
+    <execution_lines_output_field>ExecutionLinesOutput</execution_lines_output_field>
+    <execution_lines_rejected_field>ExecutionLinesRejected</execution_lines_rejected_field>
+    <execution_lines_updated_field>ExecutionLinesUpdated</execution_lines_updated_field>
+    <execution_lines_deleted_field>ExecutionLinesDeleted</execution_lines_deleted_field>
+    <execution_files_retrieved_field>ExecutionFilesRetrieved</execution_files_retrieved_field>
+    <execution_exit_status_field>ExecutionExitStatus</execution_exit_status_field>
+    <execution_log_text_field>ExecutionLogText</execution_log_text_field>
+    <execution_log_channelid_field>ExecutionLogChannelId</execution_log_channelid_field>
+    <result_rows_target_step/>
+    <result_files_target_step/>
+    <result_files_file_name_field>FileName</result_files_file_name_field>
+    <executors_output_step>Block this step until steps finish</executors_output_step>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -531,14 +720,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>480</xloc>
-      <yloc>32</yloc>
+      <xloc>320</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Set Variables Fecha</name>
-    <type>SetVariable</type>
+    <name>Generate Rows</name>
+    <type>RowGenerator</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -549,13 +738,71 @@
     </partitioning>
     <fields>
       <field>
-        <field_name>first_day</field_name>
-        <variable_name>FE_MIN_CARGA_DATOS</variable_name>
-        <variable_type>JVM</variable_type>
-        <default_value/>
+        <name>CO_BANCO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>'0116'</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>FE_EJECUCION</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>'28-04-2019'</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>FE_ENVIO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>'30-04-2019'</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>CO_DIA_DEBITO</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>0</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>CO_CUENTA_ABADIA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>'XXXXXXXXXXXX'</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
-    <use_formatting>Y</use_formatting>
+    <limit>1</limit>
+    <never_ending>N</never_ending>
+    <interval_in_ms>5000</interval_in_ms>
+    <row_time_field>now</row_time_field>
+    <last_time_field>FiveSecondsAgo</last_time_field>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -564,13 +811,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>336</xloc>
-      <yloc>32</yloc>
+      <xloc>176</xloc>
+      <yloc>160</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>System Date</name>
+    <name>Get System Info</name>
     <type>SystemInfo</type>
     <description/>
     <distribute>Y</distribute>
@@ -582,8 +829,28 @@
     </partitioning>
     <fields>
       <field>
-        <name>first_day</name>
-        <type>this year start</type>
+        <name>CO_BANCO</name>
+        <type>command line argument 1</type>
+      </field>
+      <field>
+        <name>FE_EJECUCION</name>
+        <type>command line argument 2</type>
+      </field>
+      <field>
+        <name>FE_ENVIO</name>
+        <type>command line argument 3</type>
+      </field>
+      <field>
+        <name>CO_DIA_DEBITO</name>
+        <type>command line argument 4</type>
+      </field>
+      <field>
+        <name>CO_CUENTA_ABADIA</name>
+        <type>command line argument 5</type>
+      </field>
+      <field>
+        <name>NB_ARCHIVO_DESTINO</name>
+        <type>command line argument 6</type>
       </field>
     </fields>
     <cluster_schema/>
@@ -595,13 +862,13 @@
     </remotesteps>
     <GUI>
       <xloc>64</xloc>
-      <yloc>32</yloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>return</name>
-    <type>RowsToResult</type>
+    <name>escribeArchivoFisico</name>
+    <type>TransExecutor</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -610,6 +877,51 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <specification_method>filename</specification_method>
+    <trans_object_id/>
+    <trans_name/>
+    <filename>${Internal.Entry.Current.Directory}/transformations/escribeArchivoBOD.ktr</filename>
+    <directory_path/>
+    <group_size>1</group_size>
+    <group_field/>
+    <group_time/>
+    <parameters>
+      <variablemapping>
+        <variable>CO_BANCO</variable>
+        <field>co_banco</field>
+        <input/>
+      </variablemapping>
+      <variablemapping>
+        <variable>FE_EJECUCION</variable>
+        <field>fe_ejecucion</field>
+        <input/>
+      </variablemapping>
+      <variablemapping>
+        <variable>NB_ARCHIVO_DESTINO</variable>
+        <field>nb_archivo_destino</field>
+        <input/>
+      </variablemapping>
+      <inherit_all_vars>Y</inherit_all_vars>
+    </parameters>
+    <execution_result_target_step/>
+    <execution_time_field>ExecutionTime</execution_time_field>
+    <execution_result_field>ExecutionResult</execution_result_field>
+    <execution_errors_field>ExecutionNrErrors</execution_errors_field>
+    <execution_lines_read_field>ExecutionLinesRead</execution_lines_read_field>
+    <execution_lines_written_field>ExecutionLinesWritten</execution_lines_written_field>
+    <execution_lines_input_field>ExecutionLinesInput</execution_lines_input_field>
+    <execution_lines_output_field>ExecutionLinesOutput</execution_lines_output_field>
+    <execution_lines_rejected_field>ExecutionLinesRejected</execution_lines_rejected_field>
+    <execution_lines_updated_field>ExecutionLinesUpdated</execution_lines_updated_field>
+    <execution_lines_deleted_field>ExecutionLinesDeleted</execution_lines_deleted_field>
+    <execution_files_retrieved_field>ExecutionFilesRetrieved</execution_files_retrieved_field>
+    <execution_exit_status_field>ExecutionExitStatus</execution_exit_status_field>
+    <execution_log_text_field>ExecutionLogText</execution_log_text_field>
+    <execution_log_channelid_field>ExecutionLogChannelId</execution_log_channelid_field>
+    <result_rows_target_step/>
+    <result_files_target_step/>
+    <result_files_file_name_field>FileName</result_files_file_name_field>
+    <executors_output_step/>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -618,8 +930,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
-      <yloc>32</yloc>
+      <xloc>640</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
