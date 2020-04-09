@@ -1,39 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>creaRegistrosArchivoBOD</name>
+    <name>creaArchivo</name>
     <description/>
-    <extended_description>ETL encargado de generar los registros asociados al archivo de cobro del banco BOD</extended_description>
+    <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <trans_status>1</trans_status>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
-      <parameter>
-        <name>CO_BANCO</name>
-        <default_value/>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>CO_CUENTA_ABADIA</name>
-        <default_value/>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>CO_DIA_DEBITO</name>
-        <default_value/>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>FE_EJECUCION</name>
-        <default_value/>
-        <description/>
-      </parameter>
-      <parameter>
-        <name>FE_ENVIO</name>
-        <default_value/>
-        <description/>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -453,9 +428,9 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/07/19 23:43:40.218</created_date>
+    <created_date>2020/04/08 16:06:01.155</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/07/19 23:43:40.218</modified_date>
+    <modified_date>2020/04/08 16:06:01.155</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -514,14 +489,14 @@
   </connection>
   <order>
     <hop>
-      <from>creaRegistrosArchivo</from>
-      <to>Copy rows to result</to>
+      <from>SeleccionaRegistros</from>
+      <to>EscribeArchivo</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Copy rows to result</name>
-    <type>RowsToResult</type>
+    <name>EscribeArchivo</name>
+    <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -530,6 +505,38 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <separator>;</separator>
+    <enclosure>"</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>windows-1252</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${user.home}\out\bod\${VAR_ARCHIVO_DESTINO}_</name>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>Y</SpecifyFormat>
+      <date_time_format>yyyyMMdd</date_time_format>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+    </fields>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -538,16 +545,16 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>32</yloc>
+      <xloc>432</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>creaRegistrosArchivo</name>
-    <type>ExecSQL</type>
+    <name>SeleccionaRegistros</name>
+    <type>TableInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -555,52 +562,15 @@
       <schema_name/>
     </partitioning>
     <connection>cobros</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>Y</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>--SELECT cobros.genera_datos_archivo_cobro_bod('?',to_date('?','dd-mm-yyyy'),to_date('?','dd-mm-yyyy'),'?','?');
-
-SELECT cobros.genera_datos_archivo_cobro_bod(${CO_BANCO},to_date(${FE_EJECUCION},'dd-mm-yyyy'),to_date(${FE_ENVIO},'dd-mm-yyyy'),${CO_DIA_DEBITO},${CO_CUENTA_ABADIA});
---SELECT cobros.genera_datos_archivo_cobro_bod(${CO_BANCO},to_date(${FE_EJECUCION},'dd-mm-yyyy'),to_date(${FE_ENVIO},'dd-mm-yyyy'),${CO_DIA_DEBITO},${CO_CUENTA_ABADIA});
---SELECT cobros.genera_datos_archivo_cobro_bod('0116',to_date(${FE_EJECUCION},'dd-mm-yyyy'),0,'XXXXXXXXXXXXXXXX');</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-      <argument>
-        <name>CO_BANCO</name>
-      </argument>
-      <argument>
-        <name>FE_EJECUCION</name>
-      </argument>
-      <argument>
-        <name>FE_ENVIO</name>
-      </argument>
-      <argument>
-        <name>CO_DIA_DEBITO</name>
-      </argument>
-      <argument>
-        <name>CO_CUENTA_ABADIA</name>
-      </argument>
-      <argument>
-        <name>CO_BANCO</name>
-      </argument>
-      <argument>
-        <name>FE_EJECUCION</name>
-      </argument>
-      <argument>
-        <name>FE_ENVIO</name>
-      </argument>
-      <argument>
-        <name>CO_DIA_DEBITO</name>
-      </argument>
-      <argument>
-        <name>CO_CUENTA_ABADIA</name>
-      </argument>
-    </arguments>
+    <sql>select ad.tx_registro_cobro as detalle 
+from cobros.archivo a join cobros.archivo_detalle ad on (a.co_archivo = ad.co_archivo) 
+where a.fe_cobro = to_date('${VAR_FE_EJECUCION_S}','dd-mm-yyyy') and a.co_archivo = (select max(co_archivo) 
+from cobros.archivo aa where aa.fe_cobro = to_date('${VAR_FE_EJECUCION_S}','dd-mm-yyyy') and aa.co_banco = '${VAR_BANCO_S}');</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -609,8 +579,8 @@ SELECT cobros.genera_datos_archivo_cobro_bod(${CO_BANCO},to_date(${FE_EJECUCION}
       </output>
     </remotesteps>
     <GUI>
-      <xloc>112</xloc>
-      <yloc>32</yloc>
+      <xloc>160</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
