@@ -4,12 +4,11 @@
   <description/>
   <extended_description/>
   <job_version/>
-  <job_status>0</job_status>
   <directory>/</directory>
   <created_user>-</created_user>
-  <created_date>2020/04/08 15:46:54.347</created_date>
+  <created_date>2020/04/13 14:21:25.985</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2020/04/08 15:46:54.347</modified_date>
+  <modified_date>2020/04/13 14:21:25.985</modified_date>
   <parameters>
     </parameters>
   <connection>
@@ -355,8 +354,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>64</xloc>
-      <yloc>128</yloc>
+      <xloc>112</xloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
       <name>InstanciaVariables</name>
@@ -364,7 +363,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/trasformations/instanciaVariables.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/transformations/instanciaVariables.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -391,8 +390,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>192</xloc>
-      <yloc>128</yloc>
+      <xloc>240</xloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
       <name>InsertaRegistos</name>
@@ -407,8 +406,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>336</xloc>
-      <yloc>128</yloc>
+      <xloc>384</xloc>
+      <yloc>112</yloc>
     </entry>
     <entry>
       <name>CreaArchivo</name>
@@ -416,7 +415,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Entry.Current.Directory}/trasformations/creaArchivo.ktr</filename>
+      <filename>${Internal.Entry.Current.Directory}/transformations/creaArchivo.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -443,8 +442,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>480</xloc>
-      <yloc>128</yloc>
+      <xloc>528</xloc>
+      <yloc>112</yloc>
     </entry>
   </entries>
   <hops>
