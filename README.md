@@ -16,6 +16,8 @@ $ ./kitchen.sh -file="<source_code_path>/generaArchivoBOD.kjb" -level=basic "'<c
 ejemplo:
 $ ./kitchen.sh -file="/home/portilloga/transformacion/generaArchivoBOD.kjb" -level=basic "'0116'" "'28-04-2019'" "'30-04-2019'" 0 "'570004393627'" 'bod15y30' 
 
+Windows:
+c:\>D:\fyptechnoconsulting\herramientas\pdi-ce-8.1.0.0-365\kitchen.bat -file="D:\fyptechnoconsulting\fuentes\prod\generaArchivoBOD.kjb" -level=basic "'0116'" "'28-04-2019'" "'30-04-2019'" 0 "'570004393627'" 'bod15y30' 
 
 
 
