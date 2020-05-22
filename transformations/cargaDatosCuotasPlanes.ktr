@@ -824,16 +824,14 @@
       <schema_name/>
     </partitioning>
     <connection>PLMARACAIBO</connection>
-    <sql>--select cu.cuota, co.TARJETA,SUBSTRING(co.TARJETA,1,4) as BANCO, cu.valor, co.PPAGO,cast(cast(cu.fhpagado as date)as nvarchar) as fhpagado  from dbo.CONTRATOS as co  join dbo.CUOTAS as cu on (co.CONTRATO = cu.contrato);
---select cu.CUOTA, co.TARJETA, cu.VALOR, co.PPAGO,cast(cu.fhpagado as date) as FHPAGADO  from dbo.CONTRATOS as co  join dbo.CUOTAS as cu on (co.CONTRATO = cu.contrato);
-select cu.CUOTA, 
+    <sql>select cu.CUOTA, 
        co.TARJETA, 
        cu.VALOR, 
        co.PPAGO,
        cu.VLRPAGADO,	     
        CONVERT(VARCHAR(10),cu.FECHA,105) as FECHA
 from CONTRATOS as co  join CUOTAS as cu on (co.CONTRATO = cu.contrato)
-where cu.FECHA >= ?;</sql>
+where cu.FECHA >= ? and co.ESTADO &lt;&gt; 4;</sql>
     <limit>0</limit>
     <lookup>Get fecha min carga</lookup>
     <execute_each_row>N</execute_each_row>
