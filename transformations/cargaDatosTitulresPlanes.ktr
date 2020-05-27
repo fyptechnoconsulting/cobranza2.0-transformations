@@ -9,11 +9,6 @@
     <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
-      <parameter>
-        <name>FE_INICIO_CARGA</name>
-        <default_value>20190101</default_value>
-        <description/>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -647,8 +642,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>48</yloc>
+      <xloc>384</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -763,8 +758,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>48</yloc>
+      <xloc>528</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -855,8 +850,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>208</xloc>
-      <yloc>160</yloc>
+      <xloc>384</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -895,8 +890,8 @@ from CLIENTES join CONTRATOS on (CONTRATOS.CLIENTE=CLIENTES.CLIENTE);    </sql>
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>48</yloc>
+      <xloc>224</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
