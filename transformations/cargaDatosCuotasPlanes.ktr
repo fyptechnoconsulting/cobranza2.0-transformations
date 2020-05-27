@@ -9,11 +9,6 @@
     <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
-      <parameter>
-        <name>FE_INICIO_CARGA</name>
-        <default_value>20190101</default_value>
-        <description/>
-      </parameter>
     </parameters>
     <log>
       <trans-log-table>
