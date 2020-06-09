@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>cargaDatosExternos</name>
+    <name>instanciaFechaMin</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
     </parameters>
@@ -427,85 +428,24 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/07/07 12:28:00.028</created_date>
+    <created_date>2020/04/13 14:23:37.252</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/07/07 12:28:00.028</modified_date>
+    <modified_date>2020/04/13 14:23:37.252</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
-  <connection>
-    <name>ABADLM</name>
-    <server>localhost</server>
-    <type>POSTGRESQL</type>
-    <access>Native</access>
-    <database>cobranza2_0</database>
-    <port>5433</port>
-    <username>postgres</username>
-    <password>Encrypted 2be989baa5ef7c297ac0bfd63ee80ffde</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>IS_CLUSTERED</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>PORT_NUMBER</code>
-        <attribute>5433</attribute>
-      </attribute>
-      <attribute>
-        <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>QUOTE_ALL_FIELDS</code>
-        <attribute>N</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
-        <attribute>Y</attribute>
-      </attribute>
-      <attribute>
-        <code>USE_POOLING</code>
-        <attribute>N</attribute>
-      </attribute>
-    </attributes>
-  </connection>
   <order>
     <hop>
-      <from>Insertar_Actualizar_banco</from>
-      <to>errorInsertaBanco</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Insertar_Actualizar_banco</from>
-      <to>Dummie</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Bancos</from>
-      <to>Insertar_Actualizar_banco</to>
+      <from>Get System Info</from>
+      <to>AsignaVariable</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Dummie</name>
-    <type>Dummy</type>
+    <name>AsignaVariable</name>
+    <type>SetVariable</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -514,137 +454,43 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>373</xloc>
-      <yloc>74</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Insertar_Actualizar_banco</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>ABADLM</connection>
-    <commit>100</commit>
-    <update_bypassed>Y</update_bypassed>
-    <lookup>
-      <schema>cobros</schema>
-      <table>banco</table>
-      <key>
-        <name>codigo</name>
-        <field>co_banco</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>banco</name>
-        <field>ibp</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>co_banco</name>
-        <rename>codigo</rename>
-        <update>N</update>
-      </value>
-      <value>
-        <name>ibp</name>
-        <rename>banco</rename>
-        <update>N</update>
-      </value>
-    </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>198</xloc>
-      <yloc>74</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>errorInsertaBanco</name>
-    <type>TextFileOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <separator>;</separator>
-    <enclosure>"</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>Y</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding>windows-1252</encoding>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>N</create_parent_folder>
-    <file>
-      <name>${user.home}\out\log\errorInsertaBanco</name>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>log</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>Y</SpecifyFormat>
-      <date_time_format>yyyyMMdd</date_time_format>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
     <fields>
       <field>
-        <name>Field1</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>4</length>
-        <precision>-1</precision>
+        <field_name>param_fecha</field_name>
+        <variable_name>FE_INICIO_CARGA</variable_name>
+        <variable_type>ROOT_JOB</variable_type>
+        <default_value/>
       </field>
+    </fields>
+    <use_formatting>Y</use_formatting>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>208</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Get System Info</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
       <field>
-        <name>Field2</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>71</length>
-        <precision>-1</precision>
+        <name>param_fecha</name>
+        <type>command line argument 1</type>
       </field>
     </fields>
     <cluster_schema/>
@@ -655,85 +501,12 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>198</xloc>
-      <yloc>174</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Bancos</name>
-    <type>CsvInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <filename>D:\fyptechnoconsulting\var\source\codBancos.csv</filename>
-    <filename_field/>
-    <rownum_field/>
-    <include_filename>N</include_filename>
-    <separator>;</separator>
-    <enclosure/>
-    <header>Y</header>
-    <buffer_size>50000</buffer_size>
-    <lazy_conversion>Y</lazy_conversion>
-    <add_filename_result>N</add_filename_result>
-    <parallel>N</parallel>
-    <newline_possible>N</newline_possible>
-    <encoding/>
-    <fields>
-      <field>
-        <name>codigo</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal>0</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-      </field>
-      <field>
-        <name>banco</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal>0</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-      </field>
-    </fields>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>74</yloc>
+      <xloc>96</xloc>
+      <yloc>64</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
-    <error>
-      <source_step>Insertar_Actualizar_banco</source_step>
-      <target_step>errorInsertaBanco</target_step>
-      <is_enabled>Y</is_enabled>
-      <nr_valuename/>
-      <descriptions_valuename/>
-      <fields_valuename/>
-      <codes_valuename/>
-      <max_errors/>
-      <max_pct_errors/>
-      <min_pct_rows/>
-    </error>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>

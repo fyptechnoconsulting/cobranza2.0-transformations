@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>cargaDatosExternos</name>
+    <name>creaArchivo</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -427,23 +427,23 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2017/07/07 12:28:00.028</created_date>
+    <created_date>2020/04/13 14:22:50.104</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2017/07/07 12:28:00.028</modified_date>
+    <modified_date>2020/04/13 14:22:50.104</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>ABADLM</name>
-    <server>localhost</server>
+    <name>cobros</name>
+    <server/>
     <type>POSTGRESQL</type>
-    <access>Native</access>
-    <database>cobranza2_0</database>
-    <port>5433</port>
-    <username>postgres</username>
-    <password>Encrypted 2be989baa5ef7c297ac0bfd63ee80ffde</password>
+    <access>JNDI</access>
+    <database>cobros</database>
+    <port>1521</port>
+    <username/>
+    <password>Encrypted </password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -462,7 +462,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>5433</attribute>
+        <attribute>1521</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -488,100 +488,13 @@
   </connection>
   <order>
     <hop>
-      <from>Insertar_Actualizar_banco</from>
-      <to>errorInsertaBanco</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Insertar_Actualizar_banco</from>
-      <to>Dummie</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Bancos</from>
-      <to>Insertar_Actualizar_banco</to>
+      <from>SeleccionaRegistros</from>
+      <to>EscribeArchivo</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Dummie</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>373</xloc>
-      <yloc>74</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Insertar_Actualizar_banco</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>ABADLM</connection>
-    <commit>100</commit>
-    <update_bypassed>Y</update_bypassed>
-    <lookup>
-      <schema>cobros</schema>
-      <table>banco</table>
-      <key>
-        <name>codigo</name>
-        <field>co_banco</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <key>
-        <name>banco</name>
-        <field>ibp</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>co_banco</name>
-        <rename>codigo</rename>
-        <update>N</update>
-      </value>
-      <value>
-        <name>ibp</name>
-        <rename>banco</rename>
-        <update>N</update>
-      </value>
-    </lookup>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>198</xloc>
-      <yloc>74</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>errorInsertaBanco</name>
+    <name>EscribeArchivo</name>
     <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -595,7 +508,7 @@
     <enclosure>"</enclosure>
     <enclosure_forced>N</enclosure_forced>
     <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>Y</header>
+    <header>N</header>
     <footer>N</footer>
     <format>DOS</format>
     <compression>None</compression>
@@ -605,10 +518,10 @@
     <fileNameField/>
     <create_parent_folder>N</create_parent_folder>
     <file>
-      <name>${user.home}\out\log\errorInsertaBanco</name>
+      <name>${user.home}\out\bod\${VAR_ARCHIVO_DESTINO}_</name>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>log</extention>
+      <extention>txt</extention>
       <append>N</append>
       <split>N</split>
       <haspartno>N</haspartno>
@@ -623,27 +536,15 @@
     </file>
     <fields>
       <field>
-        <name>Field1</name>
-        <type>String</type>
+        <name>detalle</name>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>4</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>Field2</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>71</length>
+        <length>61</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -655,59 +556,32 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>198</xloc>
-      <yloc>174</yloc>
+      <xloc>530</xloc>
+      <yloc>134</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Bancos</name>
-    <type>CsvInput</type>
+    <name>SeleccionaRegistros</name>
+    <type>TableInput</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>D:\fyptechnoconsulting\var\source\codBancos.csv</filename>
-    <filename_field/>
-    <rownum_field/>
-    <include_filename>N</include_filename>
-    <separator>;</separator>
-    <enclosure/>
-    <header>Y</header>
-    <buffer_size>50000</buffer_size>
-    <lazy_conversion>Y</lazy_conversion>
-    <add_filename_result>N</add_filename_result>
-    <parallel>N</parallel>
-    <newline_possible>N</newline_possible>
-    <encoding/>
-    <fields>
-      <field>
-        <name>codigo</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal>0</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-      </field>
-      <field>
-        <name>banco</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal>0</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
-      </field>
-    </fields>
+    <connection>cobros</connection>
+    <sql>select ad.tx_registro_cobro as detalle 
+from cobros.archivo a join cobros.archivo_detalle ad on (a.co_archivo = ad.co_archivo) 
+where a.fe_cobro = to_date('${VAR_FE_EJECUCION_S}','dd-mm-yyyy') and a.co_archivo = (select max(co_archivo) 
+from cobros.archivo aa where aa.fe_cobro = to_date('${VAR_FE_EJECUCION_S}','dd-mm-yyyy') and aa.co_banco = '${VAR_BANCO_S}');</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -716,24 +590,12 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
-      <yloc>74</yloc>
+      <xloc>258</xloc>
+      <yloc>134</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
-    <error>
-      <source_step>Insertar_Actualizar_banco</source_step>
-      <target_step>errorInsertaBanco</target_step>
-      <is_enabled>Y</is_enabled>
-      <nr_valuename/>
-      <descriptions_valuename/>
-      <fields_valuename/>
-      <codes_valuename/>
-      <max_errors/>
-      <max_pct_errors/>
-      <min_pct_rows/>
-    </error>
   </step_error_handling>
   <slave-step-copy-partition-distribution>
   </slave-step-copy-partition-distribution>

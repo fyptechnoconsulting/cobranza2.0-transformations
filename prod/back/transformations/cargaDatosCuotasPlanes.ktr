@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>cargaDatosExternos</name>
+    <name>cargaDatosCuotasPlanes</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>/</directory>
     <parameters>
+      <parameter>
+        <name>FE_INICIO_CARGA</name>
+        <default_value>20190101</default_value>
+        <description/>
+      </parameter>
     </parameters>
     <log>
       <trans-log-table>
@@ -417,7 +423,7 @@
     <shared_objects_file/>
     <capture_step_performance>N</capture_step_performance>
     <step_performance_capturing_delay>1000</step_performance_capturing_delay>
-    <step_performance_capturing_size_limit>100</step_performance_capturing_size_limit>
+    <step_performance_capturing_size_limit/>
     <dependencies>
     </dependencies>
     <partitionschemas>
@@ -426,10 +432,10 @@
     </slaveservers>
     <clusterschemas>
     </clusterschemas>
-    <created_user>-</created_user>
-    <created_date>2017/07/07 12:28:00.028</created_date>
-    <modified_user>-</modified_user>
-    <modified_date>2017/07/07 12:28:00.028</modified_date>
+    <created_user/>
+    <created_date>2017/07/04 18:55:42.665</created_date>
+    <modified_user/>
+    <modified_date>2017/07/04 18:55:42.665</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -486,26 +492,90 @@
       </attribute>
     </attributes>
   </connection>
+  <connection>
+    <name>PLMARACAIBO</name>
+    <server>192.168.1.12</server>
+    <type>MSSQL</type>
+    <access>Native</access>
+    <database>PLMARACAIBO</database>
+    <port>1433</port>
+    <username>fypconsulting</username>
+    <password>Encrypted 2be98eca704d48788bf10a0778fc7fe8f</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>EXTRA_OPTION_MSSQL.instance</code>
+        <attribute>PLMARACAIBO</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>MSSQL_DOUBLE_DECIMAL_SEPARATOR</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>1433</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
   <order>
     <hop>
-      <from>Insertar_Actualizar_banco</from>
-      <to>errorInsertaBanco</to>
+      <from>cuotas</from>
+      <to>Insertar _Actualizar_Cuota</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Insertar_Actualizar_banco</from>
-      <to>Dummie</to>
+      <from>Insertar _Actualizar_Cuota</from>
+      <to>audit Cuotas</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Bancos</from>
-      <to>Insertar_Actualizar_banco</to>
+      <from>Get fecha min carga</from>
+      <to>cuotas</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Insertar _Actualizar_Cuota</from>
+      <to>errorInsertaCuota</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Dummie</name>
-    <type>Dummy</type>
+    <name>Get fecha min carga</name>
+    <type>GetVariable</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -514,6 +584,20 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
+    <fields>
+      <field>
+        <name>fe_min_carga</name>
+        <variable>${FE_MIN_CARGA_DATOS}</variable>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
     <cluster_schema/>
     <remotesteps>
       <input>
@@ -522,13 +606,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>373</xloc>
-      <yloc>74</yloc>
+      <xloc>112</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Insertar_Actualizar_banco</name>
+    <name>Insertar _Actualizar_Cuota</name>
     <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
@@ -540,30 +624,67 @@
     </partitioning>
     <connection>ABADLM</connection>
     <commit>100</commit>
-    <update_bypassed>Y</update_bypassed>
+    <update_bypassed>N</update_bypassed>
     <lookup>
       <schema>cobros</schema>
-      <table>banco</table>
+      <table>tmp_cuota</table>
       <key>
-        <name>codigo</name>
-        <field>co_banco</field>
+        <name>CUOTA</name>
+        <field>co_cuota</field>
         <condition>=</condition>
         <name2/>
       </key>
       <key>
-        <name>banco</name>
-        <field>ibp</field>
+        <name>TARJETA</name>
+        <field>co_cuenta</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>CONTRATO</name>
+        <field>nu_contrato</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>FECHA</name>
+        <field>fe_cobro</field>
         <condition>=</condition>
         <name2/>
       </key>
       <value>
-        <name>co_banco</name>
-        <rename>codigo</rename>
+        <name>co_cuota</name>
+        <rename>CUOTA</rename>
         <update>N</update>
       </value>
       <value>
-        <name>ibp</name>
-        <rename>banco</rename>
+        <name>co_cuenta</name>
+        <rename>TARJETA</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>monto_cuota</name>
+        <rename>VALOR</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tipo_pago</name>
+        <rename>PPAGO</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>valor_pago</name>
+        <rename>VLRPAGADO</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>fe_cobro</name>
+        <rename>FECHA</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>nu_contrato</name>
+        <rename>CONTRATO</rename>
         <update>N</update>
       </value>
     </lookup>
@@ -575,13 +696,13 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>198</xloc>
-      <yloc>74</yloc>
+      <xloc>368</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>errorInsertaBanco</name>
+    <name>audit Cuotas</name>
     <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -605,7 +726,7 @@
     <fileNameField/>
     <create_parent_folder>N</create_parent_folder>
     <file>
-      <name>${user.home}\out\log\errorInsertaBanco</name>
+      <name>${user.home}\out\log\InsertarActualizarCuota</name>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>N</do_not_open_new_file_init>
       <extention>log</extention>
@@ -623,19 +744,19 @@
     </file>
     <fields>
       <field>
-        <name>Field1</name>
-        <type>String</type>
-        <format/>
+        <name>CUOTA</name>
+        <type>Integer</type>
+        <format>#;-#</format>
         <currency/>
-        <decimal/>
-        <group/>
+        <decimal>,</decimal>
+        <group>.</group>
         <nullif/>
         <trim_type>none</trim_type>
         <length>4</length>
-        <precision>-1</precision>
+        <precision>0</precision>
       </field>
       <field>
-        <name>Field2</name>
+        <name>TARJETA</name>
         <type>String</type>
         <format/>
         <currency/>
@@ -643,7 +764,67 @@
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>71</length>
+        <length>20</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>VALOR</name>
+        <type>BigNumber</type>
+        <format>#.###############################################;-#.###############################################</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>16</length>
+        <precision>2</precision>
+      </field>
+      <field>
+        <name>PPAGO</name>
+        <type>Integer</type>
+        <format>#;-#</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>1</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>VLRPAGADO</name>
+        <type>BigNumber</type>
+        <format>#.###############################################;-#.###############################################</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>16</length>
+        <precision>2</precision>
+      </field>
+      <field>
+        <name>FECHA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CONTRATO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -655,14 +836,54 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>198</xloc>
-      <yloc>174</yloc>
+      <xloc>512</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Bancos</name>
-    <type>CsvInput</type>
+    <name>cuotas</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>PLMARACAIBO</connection>
+    <sql>select cu.CUOTA, 
+       co.TARJETA, 
+       cu.VALOR, 
+       co.PPAGO,
+       cu.VLRPAGADO,	     
+       CONVERT(VARCHAR(10),cu.FECHA,105) as FECHA,
+	   LTRIM(RTRIM(co.CONTRATO)) as CONTRATO
+from CONTRATOS as co  join CUOTAS as cu on (co.CONTRATO = cu.contrato)
+where cu.FECHA >= '20190101' and co.ESTADO &lt;&gt; 4;
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>48</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>errorInsertaCuota</name>
+    <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -671,41 +892,120 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>D:\fyptechnoconsulting\var\source\codBancos.csv</filename>
-    <filename_field/>
-    <rownum_field/>
-    <include_filename>N</include_filename>
     <separator>;</separator>
-    <enclosure/>
+    <enclosure>"</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
     <header>Y</header>
-    <buffer_size>50000</buffer_size>
-    <lazy_conversion>Y</lazy_conversion>
-    <add_filename_result>N</add_filename_result>
-    <parallel>N</parallel>
-    <newline_possible>N</newline_possible>
-    <encoding/>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding>windows-1252</encoding>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>N</create_parent_folder>
+    <file>
+      <name>${user.home}\out\log\errorInsertaCuota</name>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>log</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>Y</SpecifyFormat>
+      <date_time_format>yyyyMMdd</date_time_format>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
     <fields>
       <field>
-        <name>codigo</name>
-        <type>String</type>
-        <format/>
+        <name>CUOTA</name>
+        <type>Integer</type>
+        <format>#;-#</format>
         <currency/>
-        <decimal>0</decimal>
-        <group/>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>both</trim_type>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>4</length>
+        <precision>0</precision>
       </field>
       <field>
-        <name>banco</name>
+        <name>TARJETA</name>
         <type>String</type>
         <format/>
         <currency/>
-        <decimal>0</decimal>
+        <decimal/>
         <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>20</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>VALOR</name>
+        <type>BigNumber</type>
+        <format>#.###############################################;-#.###############################################</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>16</length>
+        <precision>2</precision>
+      </field>
+      <field>
+        <name>PPAGO</name>
+        <type>Integer</type>
+        <format>#;-#</format>
+        <currency/>
+        <decimal>,</decimal>
+        <group>.</group>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>1</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>VLRPAGADO</name>
+        <type>BigNumber</type>
+        <format>#.###############################################;-#.###############################################</format>
+        <currency/>
+        <decimal>.</decimal>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>16</length>
+        <precision>2</precision>
+      </field>
+      <field>
+        <name>FECHA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CONTRATO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
         <length>-1</length>
         <precision>-1</precision>
-        <trim_type>both</trim_type>
       </field>
     </fields>
     <cluster_schema/>
@@ -716,15 +1016,15 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>64</xloc>
-      <yloc>74</yloc>
+      <xloc>368</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
     <error>
-      <source_step>Insertar_Actualizar_banco</source_step>
-      <target_step>errorInsertaBanco</target_step>
+      <source_step>Insertar _Actualizar_Cuota</source_step>
+      <target_step>errorInsertaCuota</target_step>
       <is_enabled>Y</is_enabled>
       <nr_valuename/>
       <descriptions_valuename/>
