@@ -12,14 +12,14 @@
   <parameters>
     </parameters>
   <connection>
-    <name>cobros</name>
-    <server/>
+    <name>ABADLM</name>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
-    <access>JNDI</access>
-    <database>cobros</database>
-    <port>1521</port>
-    <username/>
-    <password>Encrypted </password>
+    <access>Native</access>
+    <database>cobranza2_0</database>
+    <port>5433</port>
+    <username>postgres</username>
+    <password>Encrypted 2be989baa5ef7c297ac0bfd63ee80ffde</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -38,7 +38,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>1521</attribute>
+        <attribute>5433</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -402,7 +402,7 @@
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
       <sendOneStatement>F</sendOneStatement>
-      <connection>cobros</connection>
+      <connection>ABADLM</connection>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>

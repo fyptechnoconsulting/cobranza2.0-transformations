@@ -442,9 +442,9 @@
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>cobranza2_0</database>
-    <port>5432</port>
+    <port>5433</port>
     <username>postgres</username>
-    <password>Encrypted 2be98afc86aa7f2e4bb18bd63c99dbdde</password>
+    <password>Encrypted 2be989baa5ef7c297ac0bfd63ee80ffde</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -463,11 +463,11 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>5432</attribute>
+        <attribute>5433</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
-        <attribute>N</attribute>
+        <attribute>Y</attribute>
       </attribute>
       <attribute>
         <code>QUOTE_ALL_FIELDS</code>

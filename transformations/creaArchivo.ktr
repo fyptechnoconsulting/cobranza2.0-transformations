@@ -436,14 +436,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>cobros</name>
-    <server/>
+    <name>ABADLM</name>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
-    <access>JNDI</access>
-    <database>cobros</database>
-    <port>1521</port>
-    <username/>
-    <password>Encrypted </password>
+    <access>Native</access>
+    <database>cobranza2_0</database>
+    <port>5433</port>
+    <username>postgres</username>
+    <password>Encrypted 2be989baa5ef7c297ac0bfd63ee80ffde</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -462,7 +462,7 @@
       </attribute>
       <attribute>
         <code>PORT_NUMBER</code>
-        <attribute>1521</attribute>
+        <attribute>5433</attribute>
       </attribute>
       <attribute>
         <code>PRESERVE_RESERVED_WORD_CASE</code>
@@ -572,7 +572,7 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>cobros</connection>
+    <connection>ABADLM</connection>
     <sql>select ad.tx_registro_cobro as detalle 
 from cobros.archivo a join cobros.archivo_detalle ad on (a.co_archivo = ad.co_archivo) 
 where a.fe_cobro = to_date('${VAR_FE_EJECUCION_S}','dd-mm-yyyy') and a.co_archivo = (select max(co_archivo) 
